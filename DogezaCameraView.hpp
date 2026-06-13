@@ -53,7 +53,7 @@ public:
     float CurrentZoom() const
     {
         float cameraZ = game ? game->GetCameraZ() : 0.0f;
-        return ClampF(1.0f + cameraZ * 0.00135f, 1.0f, 2.15f);
+        return ClampF(1.0f + cameraZ * 0.00075f, 1.0f, 2.15f);
     }
 
     void CurrentCrop(float& u0, float& v0, float& u1, float& v1) const
@@ -173,14 +173,14 @@ public:
     void Update(float dt) override
     {
         if (!game || !stage) return;
-        ProjectedPoint p = stage->ProjectPlayerZ(game->GetPlayerZ());
+        ProjectedPoint p = stage->ProjectTrackZ(game->GetPlayerZ());
         if (!p.visible) { pOwner->scale = { 0, 0, 1 }; return; }
         if (renderer) renderer->pMaterial = game->IsProne() ? proneMaterial : runMaterial;
         pOwner->pos = { p.x, p.y - 0.02f * p.scale, 0.0f };
         pOwner->scale = game->IsProne()
-            ? XMFLOAT3{ 0.27f * p.scale, 0.09f * p.scale, 1.0f }
-            : XMFLOAT3{ 0.18f * p.scale, 0.25f * p.scale, 1.0f };
-        pOwner->rot = { 0.0f, 0.0f, game->IsProne() ? -0.04f : 0.0f };
+            ? XMFLOAT3{ 0.18f * p.scale, 0.18f * p.scale, 1.0f }
+            : XMFLOAT3{ 0.15f * p.scale, 0.38f * p.scale, 1.0f };
+        pOwner->rot = { 0.0f, 0.0f, 0.0f };
     }
 
     void Render(GraphicsContext* gfx) override {}
@@ -204,8 +204,8 @@ public:
         if (!game || !stage) return;
         ProjectedPoint p = stage->ProjectTrackZ(game->GetReceiverZ());
         if (!p.visible) { pOwner->scale = { 0, 0, 1 }; return; }
-        pOwner->pos = { p.x, p.y + 0.02f * p.scale, 0.0f };
-        pOwner->scale = { 0.18f * p.scale, 0.28f * p.scale, 1.0f };
+        pOwner->pos = { p.x, p.y + 0.0f * p.scale, 0.0f };
+        pOwner->scale = { 0.12f * p.scale, 0.34f * p.scale, 1.0f };
     }
 
     void Render(GraphicsContext* gfx) override {}

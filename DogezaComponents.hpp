@@ -65,8 +65,16 @@ public:
     float GetPlayerZ() const { return playerZ; }
     float GetReceiverZ() const { return receiverZ; }
     float GetDistance() const { return receiverZ - playerZ; }
+
+    float GetPlayerFrontZ() const { return playerZ + (prone ? 35.0f : 15.0f); }
+    float GetReceiverStopZ() const { return receiverZ - 25.0f; }
+
+    float GetJudgeDistance() const { return GetReceiverStopZ() - GetPlayerFrontZ(); }
+    float GetDisplayDistance() const { return GetJudgeDistance(); }
+
     float GetCameraZ() const { return cameraZ; }
     float GetError() const { return error; }
+
     bool IsProne() const { return prone; }
     int GetCurrentScore() const { return currentScore; }
     int GetHighScore() const { return highScore; }
@@ -86,7 +94,7 @@ public:
 
     void RandomizeReceiver()
     {
-        receiverZ = 640.0f + (float)(rand() % 420);
+        receiverZ = 820.0f + (float)(rand() % 420);
     }
 
     void StartNewRound()
@@ -138,7 +146,7 @@ public:
 
     JudgeResult Evaluate()
     {
-        error = receiverZ - playerZ;
+        error = GetReceiverStopZ() - GetPlayerFrontZ();
         if (error <= 0.0f)        result = JudgeResult::FAIL;
         else if (error <= 25.0f)  result = JudgeResult::PERFECT;
         else if (error <= 60.0f)  result = JudgeResult::GREAT;
@@ -212,7 +220,7 @@ public:
             }
         }
 
-        if ((state == GameState::APPROACH || state == GameState::PRONE_SLIDE) && playerZ >= receiverZ)
+        if ((state == GameState::APPROACH || state == GameState::PRONE_SLIDE) && GetPlayerFrontZ() >= GetReceiverStopZ())
         {
             velocity = 0.0f;
             approaching = false;
@@ -229,9 +237,9 @@ public:
             if (judgeTimer >= 0.8f) ChangeState(GameState::RESULT);
         }
 
-        float targetCameraZ = playerZ - 160.0f;
+        float targetCameraZ = playerZ - 300.0f;
         if (targetCameraZ < 0.0f) targetCameraZ = 0.0f;
-        cameraZ += (targetCameraZ - cameraZ) * (1.0f - expf(-6.5f * dt));
+        cameraZ += (targetCameraZ - cameraZ) * (1.0f - expf(-1.5f * dt));
     }
 
     void Render(GraphicsContext* gfx) override {}
@@ -475,7 +483,7 @@ public:
             AddText(verts, -0.94f, 0.93f, 0.028f, 0.050f, line);
             sprintf_s(line, "SCORE %d  BEST %d  LAST +%d", game->GetCurrentScore(), game->GetHighScore(), game->GetLastScore());
             AddText(verts, 0.22f, 0.93f, 0.022f, 0.040f, line);
-            sprintf_s(line, "DIST %.0f", game->GetDistance());
+            sprintf_s(line, "DIST %.0f", game->GetDisplayDistance());
             AddCenter(verts, -0.80f, 0.028f, 0.050f, line);
 
             if (game->GetState() == GameState::READY) AddCenter(verts, 0.10f, 0.034f, 0.058f, "PRESS SPACE TO RUN");
