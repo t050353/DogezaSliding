@@ -39,7 +39,6 @@ private:
     float slideTimer = 0.0f;
     float judgeTimer = 0.0f;
     float error = 0.0f;
-    bool approaching = false;
     bool prone = false;
     bool slideFinished = false;
     bool lastSpace = false;
@@ -64,7 +63,6 @@ public:
     float GetInertiaSeconds() const { return CurrentMap().inertiaSeconds; }
     float GetPlayerZ() const { return playerZ; }
     float GetReceiverZ() const { return receiverZ; }
-    float GetDistance() const { return receiverZ - playerZ; }
 
     float GetPlayerFrontZ() const { return playerZ + (prone ? 35.0f : 15.0f); }
     float GetReceiverStopZ() const { return receiverZ - 25.0f; }
@@ -74,7 +72,6 @@ public:
 
     float GetCameraZ() const { return cameraZ; }
     float GetError() const { return error; }
-
     bool IsProne() const { return prone; }
     int GetCurrentScore() const { return currentScore; }
     int GetHighScore() const { return highScore; }
@@ -105,7 +102,6 @@ public:
         cameraZ = 0.0f;
         velocity = 0.0f;
         slideTimer = 0.0f;
-        approaching = false;
         prone = false;
         slideFinished = false;
         result = JudgeResult::NONE;
@@ -116,7 +112,6 @@ public:
 
     void StartApproach()
     {
-        approaching = true;
         prone = false;
         slideFinished = false;
         velocity = runVelocity;
@@ -125,7 +120,6 @@ public:
 
     void StartProneSlide()
     {
-        approaching = false;
         prone = true;
         slideTimer = 0.0f;
         slideStartVelocity = runVelocity;
@@ -223,7 +217,6 @@ public:
         if ((state == GameState::APPROACH || state == GameState::PRONE_SLIDE) && GetPlayerFrontZ() >= GetReceiverStopZ())
         {
             velocity = 0.0f;
-            approaching = false;
             slideFinished = true;
             EvaluateAndMoveToResult();
         }
@@ -460,7 +453,7 @@ public:
         if (!game) return "";
         char buf[512];
         sprintf_s(buf, "S:%s M:%s D:%.0f SCORE:%d BEST:%d LAST:%d R:%s",
-            ToString(game->GetState()), game->CurrentMap().label, game->GetDistance(),
+            ToString(game->GetState()), game->CurrentMap().label, game->GetDisplayDistance(),
             game->GetCurrentScore(), game->GetHighScore(), game->GetLastScore(), ToString(game->GetResult()));
         return std::string(buf);
     }
