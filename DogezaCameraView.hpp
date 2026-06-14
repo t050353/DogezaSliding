@@ -1,7 +1,7 @@
 #pragma once
 #include "DogezaComponents.hpp"
 
-class StageViewFixedComponent : public Component
+class StageViewComponent : public Component
 {
 private:
     DogezaGameComponent* game = nullptr;
@@ -14,11 +14,11 @@ private:
     UINT vertexCount = 6;
 
 public:
-    StageViewFixedComponent(DogezaGameComponent* gameComp, TextureMaterial* mat,
+    StageViewComponent(DogezaGameComponent* gameComp, TextureMaterial* mat,
         Texture* stopTex, Texture* shortTex, Texture* longTex)
         : game(gameComp), material(mat), stopTexture(stopTex), shortTexture(shortTex), longTexture(longTex) {}
 
-    ~StageViewFixedComponent()
+    ~StageViewComponent()
     {
         if (cBuffer) cBuffer->Release();
         if (vBuffer) vBuffer->Release();
@@ -153,17 +153,17 @@ public:
     }
 };
 
-class PlayerSpriteFixedComponent : public Component
+class PlayerSpriteComponent : public Component
 {
 private:
     DogezaGameComponent* game = nullptr;
-    StageViewFixedComponent* stage = nullptr;
+    StageViewComponent* stage = nullptr;
     MeshRenderer* renderer = nullptr;
     Material* runMaterial = nullptr;
     Material* proneMaterial = nullptr;
 
 public:
-    PlayerSpriteFixedComponent(DogezaGameComponent* gameComp, StageViewFixedComponent* stageComp,
+    PlayerSpriteComponent(DogezaGameComponent* gameComp, StageViewComponent* stageComp,
         MeshRenderer* meshRenderer, Material* runMat, Material* proneMat)
         : game(gameComp), stage(stageComp), renderer(meshRenderer), runMaterial(runMat), proneMaterial(proneMat) {}
 
@@ -186,14 +186,14 @@ public:
     void Render(GraphicsContext* gfx) override {}
 };
 
-class ReceiverSpriteFixedComponent : public Component
+class ReceiverSpriteComponent : public Component
 {
 private:
     DogezaGameComponent* game = nullptr;
-    StageViewFixedComponent* stage = nullptr;
+    StageViewComponent* stage = nullptr;
 
 public:
-    ReceiverSpriteFixedComponent(DogezaGameComponent* gameComp, StageViewFixedComponent* stageComp)
+    ReceiverSpriteComponent(DogezaGameComponent* gameComp, StageViewComponent* stageComp)
         : game(gameComp), stage(stageComp) {}
 
     void Start(GraphicsContext* gfx) override {}

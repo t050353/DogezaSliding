@@ -130,17 +130,17 @@ int WINAPI WinMain(HINSTANCE hI, HINSTANCE, LPSTR, int)
     gEngine.world.push_back(manager);
 
     GameObject* background = new GameObject(0.0f, 0.0f, 0.0f, "SchoolBackgroundZoom");
-    auto* stageView = new StageViewFixedComponent(game, backgroundMat, backgroundTex, backgroundShortTex, backgroundLongTex);
+    auto* stageView = new StageViewComponent(game, backgroundMat, backgroundTex, backgroundShortTex, backgroundLongTex);
     background->AddComponent(stageView);
     gEngine.world.push_back(background);
 
     GameObject* receiver = MakeRenderObject("DogezaReceiverNPC", textureQuadMesh, receiverTexMat);
-    receiver->AddComponent(new ReceiverSpriteFixedComponent(game, stageView));
+    receiver->AddComponent(new ReceiverSpriteComponent(game, stageView));
     gEngine.world.push_back(receiver);
 
     GameObject* player = MakeRenderObject("PlayerDogezaSlider", textureQuadMesh, playerRunMat);
     MeshRenderer* playerRenderer = player->GetComponent<MeshRenderer>();
-    player->AddComponent(new PlayerSpriteFixedComponent(game, stageView, playerRenderer, playerRunMat, playerProneMat));
+    player->AddComponent(new PlayerSpriteComponent(game, stageView, playerRenderer, playerRunMat, playerProneMat));
     gEngine.world.push_back(player);
 
     GameObject* topBar = MakeRenderObject("TopHudBar", colorQuadMesh, topBarMat);
