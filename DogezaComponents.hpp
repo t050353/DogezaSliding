@@ -51,9 +51,9 @@ private:
 public:
     DogezaGameComponent()
     {
-        maps.push_back({ MapType::STOP, "MAP A", "Immediate Stop", 0.0f });
-        maps.push_back({ MapType::SHORT_INERTIA, "MAP B", "1.5 sec Inertia", 1.5f });
-        maps.push_back({ MapType::LONG_INERTIA, "MAP C", "3.0 sec Inertia", 3.0f });
+        maps.push_back({ MapType::STOP, "Homeward Street", "0.0 sec Inertia", 0.0f });
+        maps.push_back({ MapType::SHORT_INERTIA, "School Gate", "1.5 sec Inertia", 1.5f });
+        maps.push_back({ MapType::LONG_INERTIA, "Lab Building", "3.0 sec Inertia", 3.0f });
     }
 
     GameState GetState() const { return state; }
