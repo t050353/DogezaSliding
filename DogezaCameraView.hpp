@@ -81,20 +81,6 @@ public:
         v1 = ClampF(v1, 0.0f, 1.0f);
     }
 
-    ProjectedPoint ProjectPlayerZ(float worldZ, float worldX = 0.0f) const
-    {
-        float relZ = worldZ - (game ? game->GetCameraZ() : 0.0f);
-        float t = ClampF(relZ / 1050.0f, 0.0f, 1.0f);
-        float laneHalf = 0.95f + (0.15f - 0.95f) * t;
-
-        ProjectedPoint p;
-        p.x = worldX * (laneHalf / 0.95f);
-        p.y = -0.86f + (0.46f + 0.86f) * t;
-        p.scale = 1.12f + (0.28f - 1.12f) * t;
-        p.visible = relZ > -120.0f && relZ < 1170.0f;
-        return p;
-    }
-
     float TrackVFromWorldZ(float worldZ) const
     {
         float t = ClampF((worldZ - 44.0f) / 1120.0f, 0.0f, 1.0f);

@@ -118,7 +118,7 @@ int WINAPI WinMain(HINSTANCE hI, HINSTANCE, LPSTR, int)
     std::vector<Mesh*> meshes = { colorQuadMesh, textureQuadMesh };
     std::vector<Material*> materials = {
         topBarMat, bottomBarMat, titleBackdropMat,
-        backgroundMat, playerRunMat, playerProneMat, receiverTexMat, fontMat,
+         backgroundMat, playerRunMat, playerProneMat, receiverTexMat, fontMat,
         resultPerfectMat, resultGreatMat, resultGoodMat, resultFailMat, titleCardMat
     };
     std::vector<Texture*> textures = { backgroundTex, backgroundShortTex, backgroundLongTex, playerRunTex, playerProneTex, receiverTex, fontTex, resultPerfectTex, resultGreatTex, resultGoodTex, resultFailTex, titleCardTex };
